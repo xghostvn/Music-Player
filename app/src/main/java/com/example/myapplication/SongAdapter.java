@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,6 +32,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
                 songHolder.song_name.setText(ListSong.get(i).SongName);
                 songHolder.song_artist.setText(ListSong.get(i).Artist);
 
+                songHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        
+                    }
+                });
     }
 
     @Override
@@ -42,11 +49,18 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
         TextView song_name;
         TextView song_artist;
         TextView song_albums;
+        LinearLayout linearLayout;
        public SongHolder(@NonNull View itemView) {
            super(itemView);
            song_name = itemView.findViewById(R.id.song_name);
            song_artist = itemView.findViewById(R.id.song_artist);
-
+           linearLayout = itemView.findViewById(R.id.linearLayout);
        }
    }
+
+
+   //customs Interface
+
+
+
 }

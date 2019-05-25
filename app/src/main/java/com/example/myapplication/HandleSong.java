@@ -42,8 +42,8 @@ public class HandleSong {
                 String songname = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
                 String songArtist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
                 String songAlums = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
-
-                SongInfo song = new SongInfo(songname,songArtist,"");
+                String songUrl = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                SongInfo song = new SongInfo(songname,songArtist,"",songUrl);
                 Log.d("abc", "LoadSongs: " + songAlums);
                 ListSong.add(song);
             }while (cursor.moveToNext());
@@ -61,6 +61,9 @@ public class HandleSong {
     public ArrayList<SongInfo> getListSong(){
         return ListSong;
     }
+
+
+
 
 
 

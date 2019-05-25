@@ -34,4 +34,11 @@ public class Fragment_SongList extends Fragment {
 
         return rootview;
     }
+
+
+    public void HandlePlaySongClick(){
+
+    }
+
+
 }
