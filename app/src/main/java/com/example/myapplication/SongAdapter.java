@@ -10,10 +10,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
-    private ArrayList<SongInfo> ListSong = new ArrayList<>();
+    private ArrayList<SongInfo> ListSong;
 
-    public void AddSong(SongInfo song){
-        ListSong.add(song);
+    SongAdapter(ArrayList<SongInfo> listSong){
+        this.ListSong = listSong;
     }
 
     @NonNull
@@ -28,6 +28,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SongHolder songHolder, int i) { // set value for view
+                songHolder.song_name.setText(ListSong.get(i).SongName);
+                songHolder.song_artist.setText(ListSong.get(i).Artist);
 
     }
 
@@ -39,11 +41,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
     public class SongHolder extends RecyclerView.ViewHolder{ // get view
         TextView song_name;
         TextView song_artist;
-
+        TextView song_albums;
        public SongHolder(@NonNull View itemView) {
            super(itemView);
            song_name = itemView.findViewById(R.id.song_name);
            song_artist = itemView.findViewById(R.id.song_artist);
+
        }
    }
 }
