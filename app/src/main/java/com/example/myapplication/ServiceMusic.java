@@ -3,12 +3,17 @@ package com.example.myapplication;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.IOException;
 
+
+
 public class ServiceMusic extends Service {
-        private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private Handler handler = new Handler();
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -16,7 +21,8 @@ public class ServiceMusic extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mediaPlayer.start();
+
+
         return START_STICKY;
     }
 
@@ -27,16 +33,59 @@ public class ServiceMusic extends Service {
 
 
 
+
     }
 
-    public void playsong(String url) throws IOException {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setDataSource(url);
+    public void start(SongInfo songInfo) throws IOException {
+
+        Log.d("abc", "start: "+songInfo.SongName);
+        PlayHandler(songInfo);
+
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mediaPlayer.release();
+
     }
+
+
+
+   public void PlayHandler(final SongInfo songInfo){
+
+        handler.post(new Runnable(){
+
+            @Override
+            public void run() {
+                Log.d("abc", "run: 1");
+
+                if(mediaPlayer !=null){
+                    mediaPlayer.reset();
+                    try {
+                        mediaPlayer.setDataSource(songInfo.Url);
+
+                        mediaPlayer.prepareAsync();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+   }
+
+
+
+
+
+
 }

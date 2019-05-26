@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
     private ArrayList<SongInfo> ListSong;
+    public SongItemClickLitener onSongClickListener;
+
 
     SongAdapter(ArrayList<SongInfo> listSong){
         this.ListSong = listSong;
@@ -28,14 +30,18 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SongHolder songHolder, int i) { // set value for view
+    public void onBindViewHolder(@NonNull SongHolder songHolder,final int i) { // set value for view
+
+
                 songHolder.song_name.setText(ListSong.get(i).SongName);
                 songHolder.song_artist.setText(ListSong.get(i).Artist);
 
                 songHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        
+                        if(onSongClickListener!=null){
+                            onSongClickListener.OnItemClick(v,ListSong.get(i),i);
+                        }
                     }
                 });
     }
@@ -60,6 +66,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
 
 
    //customs Interface
+    public interface SongItemClickLitener{
+            void OnItemClick(View view,SongInfo song,int pos);
+    }
+
+    public void setOnItemClickListener(SongItemClickLitener onSongItemClickListener){
+            this.onSongClickListener = onSongItemClickListener;
+    }
+
+
 
 
 

@@ -1,8 +1,12 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -11,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
-
+    private Handler handler;
 
 
     @Override
@@ -35,7 +41,15 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         Log.d("check", "onCreate: ");
 
+       handler = new Handler();
 
+       Button button = findViewById(R.id.RunThread);
+       button.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               abc();
+           }
+       });
 
 
 
@@ -83,9 +97,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
+    public void abc(){
+        handler.post(new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                Log.d("abc", "run: abcdef");
+            }
+        });
+    }
 }
