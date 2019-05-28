@@ -15,6 +15,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
     public SongItemClickLitener onSongClickListener;
 
 
+
     SongAdapter(ArrayList<SongInfo> listSong){
         this.ListSong = listSong;
     }
@@ -59,6 +60,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
        public SongHolder(@NonNull View itemView) {
            super(itemView);
            song_name = itemView.findViewById(R.id.song_name);
+
            song_artist = itemView.findViewById(R.id.song_artist);
            linearLayout = itemView.findViewById(R.id.linearLayout);
        }

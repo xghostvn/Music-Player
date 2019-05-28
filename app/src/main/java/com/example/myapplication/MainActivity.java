@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,16 +41,12 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         Log.d("check", "onCreate: ");
-
+        final TextView textView = findViewById(R.id.tac_gia);
        handler = new Handler();
 
-       Button button = findViewById(R.id.RunThread);
-       button.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               abc();
-           }
-       });
+
+
+
 
 
 
@@ -97,13 +94,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void abc(){
-        handler.post(new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                Log.d("abc", "run: abcdef");
-            }
-        });
-    }
+
 }

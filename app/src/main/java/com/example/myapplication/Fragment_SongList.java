@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.zip.Inflater;
 
 
 public class Fragment_SongList extends Fragment {
@@ -20,10 +23,12 @@ public class Fragment_SongList extends Fragment {
     private HandleSong handleSong;
     private SongAdapter songAdapter;
     private ServiceMusic serviceMusic;
+    private View player_panel;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.f_songlist,container,false);
+        player_panel = inflater.inflate(R.layout.panel_player,container,false);
         Intent intent = new Intent(getContext(),ServiceMusic.class);
         getActivity().startService(intent);
         serviceMusic = new ServiceMusic();
@@ -47,7 +52,21 @@ public class Fragment_SongList extends Fragment {
         songAdapter.setOnItemClickListener(new SongAdapter.SongItemClickLitener() {
             @Override
             public void OnItemClick(View view, SongInfo song, int pos) {
-                Log.d("abc", "OnItemClick: click");
+
+                final TextView song_name = player_panel.findViewById(R.id.song_name);
+                TextView song_artist = player_panel.findViewById(R.id.tac_gia);
+                Log.d("abc", "OnItemClick: "+song_name.getText());
+                song_name.setText("def");
+                song_artist.setText(song.Artist);
+
+                Handler handler = new Handler();
+                handler.post(new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        song_name.setText("ghd");
+                    }
+                });
 
                 try {
                     serviceMusic.start(song);

@@ -21,59 +21,38 @@ public class ServiceMusic extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
         return START_STICKY;
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
-
-
-
-
-
     }
 
     public void start(SongInfo songInfo) throws IOException {
-
         Log.d("abc", "start: "+songInfo.SongName);
         PlayHandler(songInfo);
-
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
             }
         });
-
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         mediaPlayer.release();
-
     }
-
-
-
    public void PlayHandler(final SongInfo songInfo){
-
         handler.post(new Runnable(){
 
             @Override
             public void run() {
-                Log.d("abc", "run: 1");
-
                 if(mediaPlayer !=null){
                     mediaPlayer.reset();
                     try {
                         mediaPlayer.setDataSource(songInfo.Url);
-
                         mediaPlayer.prepareAsync();
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -82,6 +61,7 @@ public class ServiceMusic extends Service {
             }
         });
    }
+
 
 
 
