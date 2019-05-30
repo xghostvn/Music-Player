@@ -48,25 +48,22 @@ public class Fragment_SongList extends Fragment {
     }
 
 
-   private void HandlePlaySongClick(){
+   public void HandlePlaySongClick(){
         songAdapter.setOnItemClickListener(new SongAdapter.SongItemClickLitener() {
             @Override
             public void OnItemClick(View view, SongInfo song, int pos) {
 
-                final TextView song_name = player_panel.findViewById(R.id.song_name);
+                final TextView song_name = player_panel.findViewById(R.id.ten_BH);
                 TextView song_artist = player_panel.findViewById(R.id.tac_gia);
                 Log.d("abc", "OnItemClick: "+song_name.getText());
-                song_name.setText("def");
+                song_name.setText(song.SongName);
                 song_artist.setText(song.Artist);
 
-                Handler handler = new Handler();
-                handler.post(new Thread(){
-                    @Override
-                    public void run() {
-                        super.run();
-                        song_name.setText("ghd");
-                    }
-                });
+
+
+                Log.d("abc", "OnItemClick: "+song_name.getText());
+
+                ((MainActivity)getActivity()).abc(song_name.getText().toString(),song_artist.getText().toString());
 
                 try {
                     serviceMusic.start(song);

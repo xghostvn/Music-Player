@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SongHolder songHolder,final int i) { // set value for view
+    public void onBindViewHolder(@NonNull final SongHolder songHolder, final int i) { // set value for view
 
 
                 songHolder.song_name.setText(ListSong.get(i).SongName);
@@ -41,6 +42,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
                     @Override
                     public void onClick(View v) {
                         if(onSongClickListener!=null){
+
+
+
                             onSongClickListener.OnItemClick(v,ListSong.get(i),i);
                         }
                     }
@@ -60,7 +64,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
        public SongHolder(@NonNull View itemView) {
            super(itemView);
            song_name = itemView.findViewById(R.id.song_name);
-
+            song_albums = itemView.findViewById(R.id.tac_gia);
            song_artist = itemView.findViewById(R.id.song_artist);
            linearLayout = itemView.findViewById(R.id.linearLayout);
        }
