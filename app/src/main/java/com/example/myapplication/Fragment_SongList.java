@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.zip.Inflater;
 
 
-public class Fragment_SongList extends Fragment {
+public class Fragment_SongList extends MusicServiceFragment {
     private RecyclerView recyclerView;
     private HandleSong handleSong;
     private SongAdapter songAdapter;
@@ -29,9 +29,9 @@ public class Fragment_SongList extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.f_songlist,container,false);
         player_panel = inflater.inflate(R.layout.panel_player,container,false);
-        Intent intent = new Intent(getContext(),ServiceMusic.class);
-        getActivity().startService(intent);
-        serviceMusic = new ServiceMusic();
+       //  serviceMusic = new ServiceMusic() and start service with intent  is different object
+
+
         handleSong = new HandleSong(getContext());
         handleSong.LoadSongs();
         Log.d("Loadsongs", "onCreateView: "+handleSong.getListSong().size());
@@ -52,19 +52,11 @@ public class Fragment_SongList extends Fragment {
         songAdapter.setOnItemClickListener(new SongAdapter.SongItemClickLitener() {
             @Override
             public void OnItemClick(View view, SongInfo song, int pos) {
-
                 final TextView song_name = player_panel.findViewById(R.id.ten_BH);
                 TextView song_artist = player_panel.findViewById(R.id.tac_gia);
-                Log.d("abc", "OnItemClick: "+song_name.getText());
                 song_name.setText(song.SongName);
                 song_artist.setText(song.Artist);
-
-
-
-                Log.d("abc", "OnItemClick: "+song_name.getText());
-
                 ((MainActivity)getActivity()).abc(song_name.getText().toString(),song_artist.getText().toString());
-
                 try {
                     serviceMusic.start(song);
                 } catch (IOException e) {
@@ -75,4 +67,13 @@ public class Fragment_SongList extends Fragment {
     }
 
 
+    @Override
+    public void onServiceConnected(ServiceMusic serviceMusic) {
+        this.serviceMusic = serviceMusic;
+    }
+
+    @Override
+    public void onServiceDisconnected() {
+
+    }
 }

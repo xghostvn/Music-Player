@@ -2,7 +2,9 @@ package com.example.myapplication;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -12,20 +14,30 @@ import java.io.IOException;
 
 
 public class ServiceMusic extends Service {
-    private MediaPlayer mediaPlayer = new MediaPlayer();
-    private Handler handler = new Handler();
+    String TAG = "ServiceMusic : ";
+    private MediaPlayer mediaPlayer;
+    private Handler handler;
+    private IBinder musicBinder = new MusicBinder();
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return musicBinder;
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
-    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mediaPlayer = new MediaPlayer();
+        handler = new Handler();
+        Log.d("abc", "onCreate : mediaPlayer + Hanlder");
+
+
+    }
+
+    public boolean isPlaying(){
+        if(mediaPlayer!=null) return mediaPlayer.isPlaying();
+        return  false;
     }
 
     public void start(SongInfo songInfo) throws IOException {
@@ -38,6 +50,11 @@ public class ServiceMusic extends Service {
             }
         });
     }
+    public void pause(){
+        if(mediaPlayer!=null) mediaPlayer.pause();
+
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -60,6 +77,23 @@ public class ServiceMusic extends Service {
 
             }
         });
+   }
+
+   public class MusicBinder extends Binder{
+        public ServiceMusic getService(){
+            return ServiceMusic.this;
+        }
+   }
+
+
+
+
+
+   public void onPause(){
+        if(mediaPlayer!=null){
+            mediaPlayer.pause();
+        }
+
    }
 
 

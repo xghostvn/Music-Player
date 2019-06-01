@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,33 +29,18 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-
-    private Handler handler;
-
-
+    private ServiceMusic serviceMusic = new ServiceMusic();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.TabLayout);
         viewPager.setOffscreenPageLimit(4);
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         Log.d("check", "onCreate: ");
-        final TextView textView = findViewById(R.id.tac_gia);
-       handler = new Handler();
-
-
-
-
-
-
-
-
     }
-
 
     private void setupViewPager(ViewPager viewPager){
         SectionPagerAdapter adapter = new SectionPagerAdapter(getSupportFragmentManager());
@@ -67,10 +53,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.AddFragment(fragment_artist,"ARTIST");
         adapter.AddFragment(fragment_playlist,"PLAYLIST");
         viewPager.setAdapter(adapter);
-
     }
-
-
     private void checkPermission(){
         if(Build.VERSION.SDK_INT >=23){
             if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
@@ -82,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
-
             case 123:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     Log.d("permit", "onRequestPermissionsResult:  success");
@@ -93,17 +75,17 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         }
     }
-
     public void abc(String songname,String songartist){
-
         TextView song_artist = findViewById(R.id.tac_gia);
-        TextView song_name   =findViewById(R.id.ten_BH);
-
+        TextView song_name   = findViewById(R.id.ten_BH);
         song_artist.setText(songartist);
         song_name.setText(songname);
+        ImageView imageView = findViewById(R.id.btn_play);
+        imageView.setImageResource(R.drawable.ic_media_pause);
+
+
     }
 
 
