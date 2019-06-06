@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.io.IOException;
+
 public class SongPlayerFragment extends MusicServiceFragment {
 
         private ImageView btn_play;
@@ -28,7 +30,7 @@ public class SongPlayerFragment extends MusicServiceFragment {
         btn_next = rootView.findViewById(R.id.btn_next);
         btn_prev = rootView.findViewById(R.id.btn_prev);
 
-
+        HandleAllAction();
         return rootView;
     }
 
@@ -58,7 +60,11 @@ public class SongPlayerFragment extends MusicServiceFragment {
                        serviceMusic.pause();
                    }else {
                        btn_play.setImageResource(R.drawable.ic_media_pause);
-                      
+                       try {
+                           serviceMusic.start(serviceMusic.currentsong);
+                       } catch (IOException e) {
+                           e.printStackTrace();
+                       }
                    }
                }
            });

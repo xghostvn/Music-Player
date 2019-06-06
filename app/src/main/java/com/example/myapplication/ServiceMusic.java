@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class ServiceMusic extends Service {
     String TAG = "ServiceMusic : ";
+    public SongInfo currentsong;
     private MediaPlayer mediaPlayer;
     private Handler handler;
     private IBinder musicBinder = new MusicBinder();
@@ -42,6 +43,7 @@ public class ServiceMusic extends Service {
 
     public void start(SongInfo songInfo) throws IOException {
         Log.d("abc", "start: "+songInfo.SongName);
+
         PlayHandler(songInfo);
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -69,6 +71,7 @@ public class ServiceMusic extends Service {
                     mediaPlayer.reset();
                     try {
                         mediaPlayer.setDataSource(songInfo.Url);
+                        currentsong = songInfo;
                         mediaPlayer.prepareAsync();
                     } catch (IOException e) {
                         e.printStackTrace();
