@@ -10,14 +10,24 @@ import java.util.ArrayList;
 
 public class HandleSong {
 
-    private Context context;
+
     private ArrayList<SongInfo> ListSong = new ArrayList<>();
+    private static HandleSong handleSong;
     HandleSong(Context context){
-        this.context = context;
+
+        LoadSongs(context);
 
     }
 
-    private Cursor querySong(){
+
+    public static HandleSong get(Context context){
+        if(handleSong == null){
+            handleSong = new HandleSong(context);
+        }
+        return handleSong;
+    }
+
+    private Cursor querySong(Context context){
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor cursor = null;
@@ -29,9 +39,9 @@ public class HandleSong {
 
     }
 
-    public void LoadSongs(){
+    private void LoadSongs(Context context){
 
-        Cursor cursor = querySong();
+        Cursor cursor = querySong(context);
         Log.d("abc", "LoadSongs: start");
         try{
             cursor.moveToFirst();
@@ -43,7 +53,10 @@ public class HandleSong {
                 String songArtist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
                 String songAlums = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
                 String songUrl = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                int Duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                 SongInfo song = new SongInfo(songname,songArtist,"",songUrl);
+                song.setID(ListSong.size());
+                song.setDuration(Duration);
                 Log.d("abc", "LoadSongs: " + songAlums);
                 ListSong.add(song);
             }while (cursor.moveToNext());
@@ -61,6 +74,8 @@ public class HandleSong {
     public ArrayList<SongInfo> getListSong(){
         return ListSong;
     }
+
+
 
 
 

@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,33 +28,20 @@ import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-    private ServiceMusic serviceMusic = new ServiceMusic();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.TabLayout);
-        viewPager.setOffscreenPageLimit(4);
-        setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new Fragment_Home(),"main_content").commit();
+
+
         Log.d("check", "onCreate: ");
     }
 
-    private void setupViewPager(ViewPager viewPager){
-        SectionPagerAdapter adapter = new SectionPagerAdapter(getSupportFragmentManager());
-        Fragment_SongList fragment_songList = new Fragment_SongList();
-        Fragment_Albums fragment_albums = new Fragment_Albums();
-        Fragment_Artist fragment_artist = new Fragment_Artist();
-        Fragment_Playlist fragment_playlist = new Fragment_Playlist();
-        adapter.AddFragment(fragment_songList,"All SONGS");
-        adapter.AddFragment(fragment_albums,"ALBUMS");
-        adapter.AddFragment(fragment_artist,"ARTIST");
-        adapter.AddFragment(fragment_playlist,"PLAYLIST");
-        viewPager.setAdapter(adapter);
-    }
+
     private void checkPermission(){
         if(Build.VERSION.SDK_INT >=23){
             if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
@@ -84,6 +72,17 @@ public class MainActivity extends AppCompatActivity {
         song_name.setText(songname);
         ImageView imageView = findViewById(R.id.btn_play);
         imageView.setImageResource(R.drawable.ic_media_pause);
+    }
+
+    public void LoadsCurrentSong(){
+
+
+        SongInfo songInfo = HandleSong.get(this).getListSong().get(MusicPreferences.get(this).getLastSong());
+        TextView song_artist = findViewById(R.id.tac_gia);
+        TextView song_name   = findViewById(R.id.ten_BH);
+
+        song_artist.setText(songInfo.Artist);
+        song_name.setText(songInfo.SongName);
 
 
     }

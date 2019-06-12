@@ -18,10 +18,11 @@ public abstract class MusicServiceFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("abc", "onCreate: ");
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                      Log.d(TAG, " onServiceConnected ");
+                      Log.d("abc", " onServiceConnected ");
                     ServiceMusic.MusicBinder musicBinder = (ServiceMusic.MusicBinder) service;
                     serviceMusic = musicBinder.getService();
                     MusicServiceFragment.this.onServiceConnected(serviceMusic);
@@ -43,6 +44,7 @@ public abstract class MusicServiceFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Log.d("def", "onStart: ");
         intent = new Intent(getContext(),ServiceMusic.class);
         getActivity().bindService(intent,serviceConnection, Context.BIND_AUTO_CREATE);
         getActivity().startService(intent);

@@ -43,8 +43,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
                     public void onClick(View v) {
                         if(onSongClickListener!=null){
 
-
-
                             onSongClickListener.OnItemClick(v,ListSong.get(i),i);
                         }
                     }
@@ -55,6 +53,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
     public int getItemCount() {
         return ListSong.size();
     }
+
 
     public class SongHolder extends RecyclerView.ViewHolder{ // get view
         TextView song_name;

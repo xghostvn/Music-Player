@@ -1,13 +1,19 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.io.IOException;
 
@@ -17,6 +23,11 @@ public class SongPlayerFragment extends MusicServiceFragment {
         private ImageView btn_next;
         private ImageView btn_prev;
         private ServiceMusic serviceMusic;
+        private LinearLayout linearLayout;
+        private TextView song_name;
+        private TextView song_artist;
+        private Fragment_Home fragment_home;
+        private SeekBar seekBar;
 
 
 
@@ -24,16 +35,40 @@ public class SongPlayerFragment extends MusicServiceFragment {
     @Override
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.panel_player,container,false);
+        View rootView = inflater.inflate(R.layout.play_main,container,false);
 
-        btn_play = rootView.findViewById(R.id.btn_play);
-        btn_next = rootView.findViewById(R.id.btn_next);
-        btn_prev = rootView.findViewById(R.id.btn_prev);
+        fragment_home = new Fragment_Home();
+
+        btn_play = rootView.findViewById(R.id.play_btn);
+        btn_next = rootView.findViewById(R.id.next_btn);
+        btn_prev = rootView.findViewById(R.id.prev_btn);
+        linearLayout = rootView.findViewById(R.id.player_panel);
+        song_name = rootView.findViewById(R.id.song_name);
+        song_artist = rootView.findViewById(R.id.song_artist);
+        seekBar = rootView.findViewById(R.id.my_seekbar);
+        seekBar.setProgress(0);
+
+
+        btn_play.setImageResource(R.drawable.ic_media_pause);
 
         HandleAllAction();
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundle songinfo = getArguments();
+
+        if(songinfo!=null){
+            song_name.setText(songinfo.getString("song_name"));
+            song_artist.setText(songinfo.getString("song_artist"));
+        }
+
+
+
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,15 +95,31 @@ public class SongPlayerFragment extends MusicServiceFragment {
                        serviceMusic.pause();
                    }else {
                        btn_play.setImageResource(R.drawable.ic_media_pause);
-                       try {
+
                            serviceMusic.start(serviceMusic.currentsong);
-                       } catch (IOException e) {
-                           e.printStackTrace();
-                       }
+
                    }
                }
            });
 
+           linearLayout.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                   fragmentTransaction.replace(R.id.main_frame,fragment_home);
+                   fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                   fragmentTransaction.addToBackStack(null);
+                   fragmentTransaction.commit();
+               }
+           });
 
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("abc", "onStart: SongPlayer Fragment Start Service");
     }
 }

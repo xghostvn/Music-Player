@@ -14,6 +14,8 @@
 
         </service>
 
+        <activity android:name=".SecondActivity"></activity>
+
 
         <activity android:name=".MainActivity">
             <intent-filter>

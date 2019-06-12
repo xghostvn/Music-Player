@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,7 +21,7 @@ import java.util.zip.Inflater;
 
 public class Fragment_SongList extends MusicServiceFragment {
     private RecyclerView recyclerView;
-    private HandleSong handleSong;
+    private SongPlayerFragment songPlayerFragment;
     private SongAdapter songAdapter;
     private ServiceMusic serviceMusic;
     private View player_panel;
@@ -31,17 +32,15 @@ public class Fragment_SongList extends MusicServiceFragment {
         player_panel = inflater.inflate(R.layout.panel_player,container,false);
        //  serviceMusic = new ServiceMusic() and start service with intent  is different object
 
-
-        handleSong = new HandleSong(getContext());
-        handleSong.LoadSongs();
-        Log.d("Loadsongs", "onCreateView: "+handleSong.getListSong().size());
         recyclerView = rootview.findViewById(R.id.song_list);
-        songAdapter = new SongAdapter(handleSong.getListSong());
+        Log.d("abc", "onCreateView: LoadSongs");
+        songAdapter = new SongAdapter(HandleSong.get(getContext()).getListSong());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
         recyclerView.setAdapter(songAdapter);
+        songPlayerFragment = new SongPlayerFragment();
         HandlePlaySongClick();
 
         return rootview;
@@ -52,16 +51,26 @@ public class Fragment_SongList extends MusicServiceFragment {
         songAdapter.setOnItemClickListener(new SongAdapter.SongItemClickLitener() {
             @Override
             public void OnItemClick(View view, SongInfo song, int pos) {
-                final TextView song_name = player_panel.findViewById(R.id.ten_BH);
-                TextView song_artist = player_panel.findViewById(R.id.tac_gia);
-                song_name.setText(song.SongName);
-                song_artist.setText(song.Artist);
-                ((MainActivity)getActivity()).abc(song_name.getText().toString(),song_artist.getText().toString());
-                try {
+
                     serviceMusic.start(song);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+             Bundle bundle = new Bundle();
+             bundle.putString("song_name",song.SongName);
+             bundle.putString("song_artist",song.Artist);
+             bundle.putString("song_albums",song.Albums);
+             bundle.putString("song_url",song.Url);
+                Log.d("abc", "OnItemClick: "+song.getDuration());
+                bundle.putInt("song_duration",song.getDuration());
+
+
+
+
+                Intent intent = new Intent(getContext(),SecondActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+
+
             }
         });
     }
@@ -75,5 +84,11 @@ public class Fragment_SongList extends MusicServiceFragment {
     @Override
     public void onServiceDisconnected() {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("abc", "onStart: FragmentSongList start Service");
     }
 }
