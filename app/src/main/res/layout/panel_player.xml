@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:weightSum="2"
     android:background="@drawable/my_bg"
-    android:id="@+id/player_panel"
+    android:id="@+id/mini_play_panel"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="abc"
-            android:id="@+id/ten_BH"
+            android:id="@+id/mini_play_name"
 
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="def"
-            android:id="@+id/tac_gia"
+            android:id="@+id/mini_play_artist"
 
             />
 
@@ -57,20 +57,20 @@
     <ImageView
         android:layout_height="30dp"
         android:layout_width="30dp"
-        android:id="@+id/btn_prev"
+        android:id="@+id/mini_play_prev"
         android:src="@drawable/ic_action_prev"
         />
 
         <ImageView
             android:layout_height="30dp"
             android:layout_width="30dp"
-            android:id="@+id/btn_play"
+            android:id="@+id/mini_play_play"
             android:src="@drawable/ic_media_play"
             />
     <ImageView
         android:layout_height="30dp"
         android:layout_width="30dp"
-        android:id="@+id/btn_next"
+        android:id="@+id/mini_play_next"
         android:src="@drawable/ic_action_next"
         />
 

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Fragment_Artist extends Fragment {
+import com.example.myapplication.R;
+
+public class Fragment_Albums extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.f_artist,container,false);
+        View rootView = inflater.inflate(R.layout.f_albums,container,false);
+
+
+        return rootView;
     }
 }

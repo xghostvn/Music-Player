@@ -1,10 +1,8 @@
-package com.example.myapplication;
+package com.example.myapplication.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.io.IOException;
+import com.example.myapplication.R;
+import com.example.myapplication.fragments.Fragment_Home;
+import com.example.myapplication.fragments.MusicServiceFragment;
+import com.example.myapplication.service.ServiceMusic;
 
 public class SongPlayerFragment extends MusicServiceFragment {
 
@@ -59,22 +60,15 @@ public class SongPlayerFragment extends MusicServiceFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle songinfo = getArguments();
-
         if(songinfo!=null){
             song_name.setText(songinfo.getString("song_name"));
             song_artist.setText(songinfo.getString("song_artist"));
         }
-
-
-
-
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public void onServiceConnected(ServiceMusic serviceMusic) {
         this.serviceMusic = serviceMusic;

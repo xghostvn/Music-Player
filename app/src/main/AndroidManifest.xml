@@ -10,14 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".ServiceMusic">
+        <service android:name=".service.ServiceMusic">
 
         </service>
 
-        <activity android:name=".SecondActivity"></activity>
+        <activity android:name=".activity.SecondActivity"></activity>
 
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.fragments;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
+import com.example.myapplication.service.ServiceMusic;
 
 public abstract class MusicServiceFragment extends Fragment {
     private String TAG = "MusicServiceFragment : ";

@@ -1,16 +1,18 @@
-package com.example.myapplication;
+package com.example.myapplication.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.myapplication.loader.HandleSong;
+import com.example.myapplication.loader.MusicPreferences;
+import com.example.myapplication.models.SongInfo;
+
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class ServiceMusic extends Service {

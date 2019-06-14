@@ -1,11 +1,10 @@
-package com.example.myapplication;
+package com.example.myapplication.activity;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.io.IOException;
+import com.example.myapplication.R;
+import com.example.myapplication.service.ServiceMusic;
 
 public class SecondActivity extends AppCompatActivity {
     private ServiceConnection serviceConnection;
@@ -27,6 +27,10 @@ public class SecondActivity extends AppCompatActivity {
     private ImageView btn_prev;
     private Intent intent;
     private SeekBar seekBar;
+    private TextView song_duration;
+    private TextView song_current_time;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,8 @@ public class SecondActivity extends AppCompatActivity {
     private void initView(){
         Intent intent = this.getIntent();
 
+        song_current_time = findViewById(R.id.song_current_time);
+        song_duration = findViewById(R.id.song_duration);
         song_name = findViewById(R.id.song_name);
         song_artist = findViewById(R.id.song_artist);
         btn_next = findViewById(R.id.next_btn);
@@ -64,7 +70,14 @@ public class SecondActivity extends AppCompatActivity {
         seekBar.setMax(intent.getIntExtra("song_duration",0));
         song_name.setText(intent.getStringExtra("song_name"));
         song_artist.setText(intent.getStringExtra("song_artist"));
-        btn_play.setImageResource(R.drawable.ic_media_pause);
+        boolean type = intent.getBooleanExtra("Type",false);
+        if(type){
+            btn_play.setImageResource(R.drawable.ic_media_pause);
+        }
+
+
+
+        song_duration.setText(String.valueOf(HandleTimeSong(intent.getIntExtra("song_duration",0))));
 
 
     }
@@ -80,13 +93,32 @@ public class SecondActivity extends AppCompatActivity {
                         serviceMusic.pause();
                         btn_play.setImageResource(R.drawable.ic_media_play);
                     }else {
-
                             serviceMusic.resume();
-
-
                         btn_play.setImageResource(R.drawable.ic_media_pause);
                     }
                 }
+            }
+        });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(serviceMusic!=null){
+                    serviceMusic.mediaPlayer.seekTo(progress);
+                }
+
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 
@@ -108,9 +140,12 @@ public class SecondActivity extends AppCompatActivity {
         @Override
         public void run() {
             super.run();
+
            while (true){
                try {
+
                    Thread.sleep(1000);
+
                } catch (InterruptedException e) {
                    e.printStackTrace();
                }
@@ -119,13 +154,19 @@ public class SecondActivity extends AppCompatActivity {
                    public void run() {
                        super.run();
                        if(serviceMusic!=null){
-
                            seekBar.setProgress(serviceMusic.mediaPlayer.getCurrentPosition());
+
                        }
                    }
                });
            }
         }
+    }
+
+    private double HandleTimeSong(int song_time){
+        double duration = (double) song_time/1000/60;
+        return (Math.round(duration*100.0)/100.0);
+
     }
 
 

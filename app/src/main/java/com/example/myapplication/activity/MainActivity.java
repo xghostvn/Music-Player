@@ -1,30 +1,17 @@
-package com.example.myapplication;
+package com.example.myapplication.activity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.zip.Inflater;
+import com.example.myapplication.R;
+import com.example.myapplication.fragments.Fragment_Home;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,27 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-    public void abc(String songname,String songartist){
-        TextView song_artist = findViewById(R.id.tac_gia);
-        TextView song_name   = findViewById(R.id.ten_BH);
-        song_artist.setText(songartist);
-        song_name.setText(songname);
-        ImageView imageView = findViewById(R.id.btn_play);
-        imageView.setImageResource(R.drawable.ic_media_pause);
-    }
-
-    public void LoadsCurrentSong(){
 
 
-        SongInfo songInfo = HandleSong.get(this).getListSong().get(MusicPreferences.get(this).getLastSong());
-        TextView song_artist = findViewById(R.id.tac_gia);
-        TextView song_name   = findViewById(R.id.ten_BH);
 
-        song_artist.setText(songInfo.Artist);
-        song_name.setText(songInfo.SongName);
-
-
-    }
 
 
 }

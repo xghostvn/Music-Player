@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.models;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ public class SongInfo implements Serializable {
     private int songID;
     private int duration;
 
-     SongInfo(String name,String artist,String albums,String url){
+    public SongInfo(String name,String artist,String albums,String url){
         SongName = name;
         Artist = artist;
         Url = url;

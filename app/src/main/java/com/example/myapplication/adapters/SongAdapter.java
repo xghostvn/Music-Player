@@ -1,13 +1,15 @@
-package com.example.myapplication;
+package com.example.myapplication.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.myapplication.R;
+import com.example.myapplication.models.SongInfo;
 
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
 
 
 
-    SongAdapter(ArrayList<SongInfo> listSong){
+   public SongAdapter(ArrayList<SongInfo> listSong){
         this.ListSong = listSong;
     }
 
@@ -58,12 +60,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
     public class SongHolder extends RecyclerView.ViewHolder{ // get view
         TextView song_name;
         TextView song_artist;
-        TextView song_albums;
+
         LinearLayout linearLayout;
        public SongHolder(@NonNull View itemView) {
            super(itemView);
            song_name = itemView.findViewById(R.id.song_name);
-            song_albums = itemView.findViewById(R.id.tac_gia);
+
            song_artist = itemView.findViewById(R.id.song_artist);
            linearLayout = itemView.findViewById(R.id.linearLayout);
        }

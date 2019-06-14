@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+
     >
 
 
 
     <android.support.design.widget.TabLayout
         android:id="@+id/TabLayout"
-        android:padding="10dp"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -19,7 +20,16 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/switch_panelplay"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="4" />
+        android:src="@drawable/quick_play_shuffle"
+        android:layout_gravity="bottom|end"
+        />
+
 
 </LinearLayout>

@@ -1,10 +1,12 @@
-package com.example.myapplication;
+package com.example.myapplication.loader;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import com.example.myapplication.models.SongInfo;
 
 import java.util.ArrayList;
 
@@ -13,7 +15,7 @@ public class HandleSong {
 
     private ArrayList<SongInfo> ListSong = new ArrayList<>();
     private static HandleSong handleSong;
-    HandleSong(Context context){
+   public HandleSong(Context context){
 
         LoadSongs(context);
 

@@ -1,22 +1,25 @@
-package com.example.myapplication;
+package com.example.myapplication.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.FloatingActionButton;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.zip.Inflater;
+
+import com.example.myapplication.loader.HandleSong;
+import com.example.myapplication.R;
+import com.example.myapplication.activity.SecondActivity;
+import com.example.myapplication.service.ServiceMusic;
+import com.example.myapplication.adapters.SongAdapter;
+import com.example.myapplication.models.SongInfo;
 
 
 public class Fragment_SongList extends MusicServiceFragment {
@@ -24,12 +27,15 @@ public class Fragment_SongList extends MusicServiceFragment {
     private SongPlayerFragment songPlayerFragment;
     private SongAdapter songAdapter;
     private ServiceMusic serviceMusic;
-    private View player_panel;
+    private FloatingActionButton floatingActionButton;
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.f_songlist,container,false);
-        player_panel = inflater.inflate(R.layout.panel_player,container,false);
+        floatingActionButton = getActivity().findViewById(R.id.switch_panelplay);
        //  serviceMusic = new ServiceMusic() and start service with intent  is different object
 
         recyclerView = rootview.findViewById(R.id.song_list);
@@ -51,28 +57,22 @@ public class Fragment_SongList extends MusicServiceFragment {
         songAdapter.setOnItemClickListener(new SongAdapter.SongItemClickLitener() {
             @Override
             public void OnItemClick(View view, SongInfo song, int pos) {
-
                     serviceMusic.start(song);
-
-             Bundle bundle = new Bundle();
-             bundle.putString("song_name",song.SongName);
-             bundle.putString("song_artist",song.Artist);
-             bundle.putString("song_albums",song.Albums);
-             bundle.putString("song_url",song.Url);
-                Log.d("abc", "OnItemClick: "+song.getDuration());
-                bundle.putInt("song_duration",song.getDuration());
-
-
-
-
-                Intent intent = new Intent(getContext(),SecondActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-
-
+                    SwitchPanel(song,true);
 
             }
         });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwitchPanel(serviceMusic.currentsong,false);
+            }
+        });
+
+
+
+
     }
 
 
@@ -90,5 +90,21 @@ public class Fragment_SongList extends MusicServiceFragment {
     public void onStart() {
         super.onStart();
         Log.d("abc", "onStart: FragmentSongList start Service");
+    }
+
+    private void SwitchPanel(SongInfo songInfo,Boolean type){
+
+        if(songInfo!=null){
+            Bundle bundle = new Bundle();
+            bundle.putString("song_name",songInfo.SongName);
+            bundle.putString("song_artist",songInfo.Artist);
+            bundle.putInt("song_duration",songInfo.getDuration());
+            bundle.putBoolean("Type",type);
+            Intent intent = new Intent(getContext(), SecondActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+
+
     }
 }
