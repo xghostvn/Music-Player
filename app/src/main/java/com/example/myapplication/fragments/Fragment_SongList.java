@@ -30,6 +30,8 @@ import com.example.myapplication.service.ServiceMusic;
 import com.example.myapplication.adapters.SongAdapter;
 import com.example.myapplication.models.SongInfo;
 
+import java.util.ArrayList;
+
 
 public class Fragment_SongList extends MusicServiceFragment {
     private RecyclerView recyclerView;
@@ -39,6 +41,10 @@ public class Fragment_SongList extends MusicServiceFragment {
     private ImageView mini_btn_play;
     private TextView mini_play_name;
     private TextView mini_play_artist;
+    private ImageView mini_btn_next;
+    private ImageView mini_btn_prev;
+
+    private ArrayList<SongInfo> Song_List;
 
 
 
@@ -47,9 +53,12 @@ public class Fragment_SongList extends MusicServiceFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.f_songlist,container,false);
+        Song_List = HandleSong.get(getContext()).getListSong();
         mini_btn_play = rootview.findViewById(R.id.mini_play_play);
         mini_play_name = rootview.findViewById(R.id.mini_play_name);
         mini_play_artist = rootview.findViewById(R.id.mini_play_artist);
+        mini_btn_next = rootview.findViewById(R.id.mini_play_next);
+        mini_btn_prev = rootview.findViewById(R.id.mini_play_prev);
          HandleView();
         Log.d("abc", "onCreateView: fragment_songlist");
        //  serviceMusic = new ServiceMusic() and start service with intent  is different object
@@ -100,6 +109,59 @@ public class Fragment_SongList extends MusicServiceFragment {
                     mini_btn_play.setImageResource(R.drawable.ic_media_pause);
                     serviceMusic.resume();
                 }
+            }
+        });
+
+        mini_btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ID = serviceMusic.currentsong.getID();
+                if(ID>=Song_List.size()){
+                    ID = 1;
+                }else {
+                    ID = ID + 1;
+                }
+                SongInfo songInfo = Song_List.get(ID-1);
+                if(serviceMusic.isPlaying()){
+
+                    serviceMusic.start(songInfo);
+                    mini_play_name.setText(songInfo.SongName);
+                    mini_play_artist.setText(songInfo.Artist);
+
+                }else {
+
+                    serviceMusic.currentsong = songInfo;
+                    mini_play_name.setText(songInfo.SongName);
+                    mini_play_artist.setText(songInfo.Artist);
+
+                }
+            }
+        });
+
+        mini_btn_prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ID = serviceMusic.currentsong.getID();
+                if(ID<=1){
+                    ID = Song_List.size();
+                }else {
+                    ID = ID -1;
+                }
+                SongInfo songInfo = Song_List.get(ID-1);
+                if(serviceMusic.isPlaying()){
+
+                    serviceMusic.start(songInfo);
+                    mini_play_name.setText(songInfo.SongName);
+                    mini_play_artist.setText(songInfo.Artist);
+
+                }else {
+
+                    serviceMusic.currentsong = songInfo;
+                    mini_play_name.setText(songInfo.SongName);
+                    mini_play_artist.setText(songInfo.Artist);
+
+                }
+
             }
         });
     }
