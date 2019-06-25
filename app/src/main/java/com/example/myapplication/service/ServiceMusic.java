@@ -38,7 +38,7 @@ public class ServiceMusic extends Service {
         mediaPlayer = new MediaPlayer();
         handler = new Handler();
 
-        Log.d("abc", "onCreate : mediaPlayer + Hanlder");
+        Log.d("abc", "onCreate : service create");
         restoreSong();
 
     }
@@ -143,9 +143,10 @@ public class ServiceMusic extends Service {
    }
 
 
-
-
-
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("abc", "onDestroy: service destroy");
+    }
+    
 }

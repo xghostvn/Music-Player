@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:text="abc"
             android:id="@+id/mini_play_name"
-
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:singleLine="true"

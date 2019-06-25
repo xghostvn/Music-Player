@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -22,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("abc", "onCreate: create main activity");
+
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new Fragment_Home(),"main_content").commit();
 
 
-        Log.d("check", "onCreate: ");
+
     }
 
 
@@ -54,7 +57,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("abc", "onDestroy: destroy main activity");
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("abc", "onPause: main activity pause");
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("abc", "onResume: main activity running");
+    }
 }

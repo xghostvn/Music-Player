@@ -59,7 +59,7 @@ public class HandleSong {
                 SongInfo song = new SongInfo(songname,songArtist,"",songUrl);
                 song.setID(ListSong.size());
                 song.setDuration(Duration);
-                Log.d("abc", "LoadSongs: " + songAlums);
+
                 ListSong.add(song);
             }while (cursor.moveToNext());
 

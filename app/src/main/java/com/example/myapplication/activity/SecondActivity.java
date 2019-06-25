@@ -29,8 +29,6 @@ public class SecondActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private TextView song_duration;
     private TextView song_current_time;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +56,6 @@ public class SecondActivity extends AppCompatActivity {
     }
     private void initView(){
         Intent intent = this.getIntent();
-
         song_current_time = findViewById(R.id.song_current_time);
         song_duration = findViewById(R.id.song_duration);
         song_name = findViewById(R.id.song_name);
@@ -74,17 +71,9 @@ public class SecondActivity extends AppCompatActivity {
         if(type){
             btn_play.setImageResource(R.drawable.ic_media_pause);
         }
-
-
-
         song_duration.setText(String.valueOf(HandleTimeSong(intent.getIntExtra("song_duration",0))));
-
-
     }
     private void HandleAction(){
-
-
-
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,32 +88,24 @@ public class SecondActivity extends AppCompatActivity {
                 }
             }
         });
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if(serviceMusic!=null){
                     serviceMusic.mediaPlayer.seekTo(progress);
                 }
-
-
-
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
-
         runThread runThread = new runThread();
         runThread.start();
-
     }
 
     @Override
@@ -140,12 +121,9 @@ public class SecondActivity extends AppCompatActivity {
         @Override
         public void run() {
             super.run();
-
            while (true){
                try {
-
                    Thread.sleep(1000);
-
                } catch (InterruptedException e) {
                    e.printStackTrace();
                }
@@ -154,20 +132,15 @@ public class SecondActivity extends AppCompatActivity {
                    public void run() {
                        super.run();
                        if(serviceMusic!=null){
-                           seekBar.setProgress(serviceMusic.mediaPlayer.getCurrentPosition());
-
+                               seekBar.setProgress(serviceMusic.mediaPlayer.getCurrentPosition());
                        }
                    }
                });
            }
         }
     }
-
     private double HandleTimeSong(int song_time){
         double duration = (double) song_time/1000/60;
         return (Math.round(duration*100.0)/100.0);
-
     }
-
-
 }
