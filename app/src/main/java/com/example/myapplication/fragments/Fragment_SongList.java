@@ -115,52 +115,22 @@ public class Fragment_SongList extends MusicServiceFragment {
         mini_btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ID = serviceMusic.currentsong.getID();
-                if(ID>=Song_List.size()){
-                    ID = 1;
-                }else {
-                    ID = ID + 1;
-                }
-                SongInfo songInfo = Song_List.get(ID-1);
-                if(serviceMusic.isPlaying()){
-
-                    serviceMusic.start(songInfo);
-                    mini_play_name.setText(songInfo.SongName);
-                    mini_play_artist.setText(songInfo.Artist);
-
-                }else {
-
-                    serviceMusic.currentsong = songInfo;
-                    mini_play_name.setText(songInfo.SongName);
-                    mini_play_artist.setText(songInfo.Artist);
-
-                }
+                serviceMusic.play_next();
+                SongInfo songInfo = serviceMusic.currentsong;
+                mini_play_name.setText(songInfo.SongName);
+                mini_play_artist.setText(songInfo.Artist);
             }
         });
 
         mini_btn_prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ID = serviceMusic.currentsong.getID();
-                if(ID<=1){
-                    ID = Song_List.size();
-                }else {
-                    ID = ID -1;
-                }
-                SongInfo songInfo = Song_List.get(ID-1);
-                if(serviceMusic.isPlaying()){
 
-                    serviceMusic.start(songInfo);
-                    mini_play_name.setText(songInfo.SongName);
-                    mini_play_artist.setText(songInfo.Artist);
+                serviceMusic.play_prev();
+                SongInfo songInfo = serviceMusic.currentsong;
+                mini_play_name.setText(songInfo.SongName);
+                mini_play_artist.setText(songInfo.Artist);
 
-                }else {
-
-                    serviceMusic.currentsong = songInfo;
-                    mini_play_name.setText(songInfo.SongName);
-                    mini_play_artist.setText(songInfo.Artist);
-
-                }
 
             }
         });

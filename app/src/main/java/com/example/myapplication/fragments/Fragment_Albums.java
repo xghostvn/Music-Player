@@ -21,7 +21,7 @@ public class Fragment_Albums extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.f_albums,container,false);
         albums_recycler = rootView.findViewById(R.id.albums_recyclerView);
-        AlbumsAdapter albumsAdapter = new AlbumsAdapter(HandleSong.get(getContext()).getListSong());
+        AlbumsAdapter albumsAdapter = new AlbumsAdapter(HandleSong.get(getContext()).getAlbumsList());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         albums_recycler.setLayoutManager(linearLayoutManager);
         albums_recycler.setAdapter(albumsAdapter);

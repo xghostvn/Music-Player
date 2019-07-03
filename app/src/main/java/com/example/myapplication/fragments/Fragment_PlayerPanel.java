@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activity.SecondActivity;
+import com.example.myapplication.loader.HandleSong;
 import com.example.myapplication.models.SongInfo;
 import com.example.myapplication.service.ServiceMusic;
 
@@ -72,6 +73,39 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
                 }
             }
         });
+
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                serviceMusic.play_next();
+                SongInfo songInfo = serviceMusic.currentsong;
+
+                song_name.setText(songInfo.SongName);
+                song_artist.setText(songInfo.Artist);
+
+            }
+        });
+
+
+        btn_prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                serviceMusic.play_prev();
+                SongInfo songInfo = serviceMusic.currentsong;
+
+                song_name.setText(songInfo.SongName);
+                song_artist.setText(songInfo.Artist);
+
+
+            }
+        });
+
+
+
+
         runThread runThread = new runThread();
         runThread.start();
 

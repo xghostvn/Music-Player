@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">My music player</string>
     <!--Albums -->
     <string name="albums_name">Albums Name</string>
     <string name="albums_artist">Albums Artist</string>

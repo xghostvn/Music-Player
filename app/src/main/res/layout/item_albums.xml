@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:weightSum="3"
     android:id="@+id/albums_panel"
@@ -28,12 +28,12 @@
         >
 
         <TextView
+            android:id="@+id/albums_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:text="@string/albums_name"
-            android:textSize="20sp"
-            android:id="@+id/albums_name"
-            />
+            android:textSize="20sp" />
 
 
         <TextView

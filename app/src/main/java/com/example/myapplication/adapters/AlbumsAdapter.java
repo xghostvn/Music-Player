@@ -2,6 +2,7 @@ package com.example.myapplication.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.models.AlbumsInfo;
 import com.example.myapplication.models.SongInfo;
 
 import java.util.ArrayList;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsHolder> {
-    private ArrayList<SongInfo> List_Albums;
-    public AlbumsAdapter(ArrayList<SongInfo> list_Albums){
+    private ArrayList<AlbumsInfo> List_Albums;
+    public AlbumsAdapter(ArrayList<AlbumsInfo> list_Albums){
         this.List_Albums = list_Albums;
+        Log.d("abc", "AlbumsAdapter: "+this.List_Albums.size());
     }
     @NonNull
     @Override
@@ -31,8 +34,9 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsHold
 
     @Override
     public void onBindViewHolder(@NonNull AlbumsAdapter.AlbumsHolder albumsHolder, int i) {
-            albumsHolder.albums_name.setText(List_Albums.get(i).Albums);
-            albumsHolder.albums_artist.setText(List_Albums.get(i).Artist);
+
+            albumsHolder.albums_name.setText(List_Albums.get(i).getAlbums_name());
+            albumsHolder.albums_artist.setText(List_Albums.get(i).getAlbums_artist());
 
 
 
