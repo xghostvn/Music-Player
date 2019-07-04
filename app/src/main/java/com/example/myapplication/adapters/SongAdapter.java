@@ -75,7 +75,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
 
    //customs Interface
     public interface SongItemClickLitener{
-            void OnItemClick(View view,SongInfo song,int pos);
+            void OnItemClick(View view, SongInfo song, int pos);
     }
 
     public void setOnItemClickListener(SongItemClickLitener onSongItemClickListener){

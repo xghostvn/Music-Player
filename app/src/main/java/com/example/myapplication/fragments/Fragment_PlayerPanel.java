@@ -20,7 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activity.SecondActivity;
+
 import com.example.myapplication.loader.HandleSong;
 import com.example.myapplication.models.SongInfo;
 import com.example.myapplication.service.ServiceMusic;

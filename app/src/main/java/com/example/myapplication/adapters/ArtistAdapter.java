@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHolder> {
     @NonNull
     @Override
-    public ArtistAdapter.ArtistHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ArtistHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
@@ -17,7 +17,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ArtistAdapter.ArtistHolder artistHolder, int i) {
+    public void onBindViewHolder(@NonNull ArtistHolder artistHolder, int i) {
 
     }
 

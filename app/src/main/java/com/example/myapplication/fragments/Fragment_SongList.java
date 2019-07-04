@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.loader.HandleSong;
 import com.example.myapplication.R;
-import com.example.myapplication.activity.SecondActivity;
+
 import com.example.myapplication.service.ServiceMusic;
 import com.example.myapplication.adapters.SongAdapter;
 import com.example.myapplication.models.SongInfo;
@@ -159,21 +159,6 @@ public class Fragment_SongList extends MusicServiceFragment {
         Log.d("abc", "onStart: FragmentSongList start Service");
     }
 
-    private void SwitchActivity(SongInfo songInfo,Boolean type){
-
-        if(songInfo!=null){
-            Bundle bundle = new Bundle();
-            bundle.putString("song_name",songInfo.SongName);
-            bundle.putString("song_artist",songInfo.Artist);
-            bundle.putInt("song_duration",songInfo.getDuration());
-            bundle.putBoolean("Type",type);
-            Intent intent = new Intent(getContext(), SecondActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-
-
-    }
 
 
     private void SwitchFragment(SongInfo songInfo){

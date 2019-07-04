@@ -23,7 +23,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsHold
     }
     @NonNull
     @Override
-    public AlbumsAdapter.AlbumsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public AlbumsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.item_albums,viewGroup,false);
@@ -33,7 +33,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlbumsAdapter.AlbumsHolder albumsHolder, int i) {
+    public void onBindViewHolder(@NonNull AlbumsHolder albumsHolder, int i) {
 
             albumsHolder.albums_name.setText(List_Albums.get(i).getAlbums_name());
             albumsHolder.albums_artist.setText(List_Albums.get(i).getAlbums_artist());
