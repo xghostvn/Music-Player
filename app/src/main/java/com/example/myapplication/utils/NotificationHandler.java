@@ -13,6 +13,8 @@ import android.util.Log;
 import com.example.myapplication.R;
 import com.example.myapplication.service.ServiceMusic;
 
+import static com.example.myapplication.activity.App.CHANNEL_ID;
+
 public class NotificationHandler {
     public static Notification createNotification(Context context,boolean Isplaying){
 
@@ -39,7 +41,7 @@ public class NotificationHandler {
         next_action.setAction("next_action");
         PendingIntent pnext_action = PendingIntent.getActivity(context,0,next_action,0);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"MyNotification")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,CHANNEL_ID)
                 .setSmallIcon(R.drawable.music_icon)
                 .addAction(R.drawable.ic_action_prev,"prev",pprev_action);
 
@@ -51,7 +53,7 @@ public class NotificationHandler {
 
         builder.addAction(R.drawable.ic_action_next,"next",pnext_action);
 
-        Log.d("abc", "createNotification: create notification");
+
         return builder.build();
 
 

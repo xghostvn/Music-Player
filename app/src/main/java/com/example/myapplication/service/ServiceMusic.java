@@ -58,38 +58,7 @@ public class ServiceMusic extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.d("abc", "onStartCommand: ");
-        Intent prev_action = new Intent(getApplicationContext(), ServiceMusic.class);
-        prev_action.setAction("prev_action");
-        PendingIntent pprev_action =  PendingIntent.getActivity(getApplicationContext(),0,prev_action,0);
 
-        Intent play_action = new Intent(getApplicationContext(),ServiceMusic.class);
-        play_action.setAction("play_action");
-        PendingIntent pplay_action = PendingIntent.getActivity(getApplicationContext(),0,play_action,0);
-
-        Intent pause_action = new Intent(getApplicationContext(),ServiceMusic.class);
-        pause_action.setAction("pause_action");
-        PendingIntent ppause_action = PendingIntent.getActivity(getApplicationContext(),0,pause_action,0);
-
-        Intent next_action = new Intent(getApplicationContext(),ServiceMusic.class);
-        next_action.setAction("next_action");
-        PendingIntent pnext_action = PendingIntent.getActivity(getApplicationContext(),0,next_action,0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
-                .setSmallIcon(R.drawable.music_icon)
-                .setContentText("abc")
-                .setContentTitle("def")
-                .setContentIntent(ppause_action)
-                .addAction(R.drawable.ic_action_prev,"prev",pprev_action);
-
-        if(isPlaying()){
-            builder.addAction(R.drawable.ic_media_pause,"pause",pplay_action);
-        }else {
-            builder.addAction(R.drawable.ic_media_play,"play",ppause_action);
-        }
-
-        builder.addAction(R.drawable.ic_action_next,"next",pnext_action);
-        startForeground(1,builder.build());
 
 
         return START_NOT_STICKY;
@@ -97,11 +66,6 @@ public class ServiceMusic extends Service {
 
     private void tobeForeground(){
         Log.d("abc", "tobeForeground: ");
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel notificationChannel = new NotificationChannel("MyNotification","MyNotification", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager notificationManager = getApplicationContext().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
 
         Intent prev_action = new Intent(getApplicationContext(), ServiceMusic.class);
         prev_action.setAction("prev_action");
@@ -119,7 +83,7 @@ public class ServiceMusic extends Service {
         next_action.setAction("next_action");
         PendingIntent pnext_action = PendingIntent.getActivity(getApplicationContext(),0,next_action,0);
 
-        Notification builder = new NotificationCompat.Builder(getApplicationContext(),"MyNotification")
+        Notification builder = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
                 .setSmallIcon(R.drawable.music_icon)
                 .setContentText("abc")
                 .setContentTitle("def")
@@ -151,7 +115,10 @@ public class ServiceMusic extends Service {
             }
 
         });
-
+        if (first_time){
+            tobeForeground();
+            first_time = false;
+        }
 
     }
     public void play_prev(){

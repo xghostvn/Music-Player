@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -54,4 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
+
 }

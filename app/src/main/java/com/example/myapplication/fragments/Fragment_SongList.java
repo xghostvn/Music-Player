@@ -30,7 +30,7 @@ import com.example.myapplication.service.ServiceMusic;
 import com.example.myapplication.adapters.SongAdapter;
 import com.example.myapplication.models.SongInfo;
 
-import java.util.ArrayList;
+
 
 
 public class Fragment_SongList extends MusicServiceFragment {
@@ -44,7 +44,7 @@ public class Fragment_SongList extends MusicServiceFragment {
     private ImageView mini_btn_next;
     private ImageView mini_btn_prev;
 
-    private ArrayList<SongInfo> Song_List;
+
 
 
 
@@ -53,7 +53,7 @@ public class Fragment_SongList extends MusicServiceFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.f_songlist,container,false);
-        Song_List = HandleSong.get(getContext()).getListSong();
+
         mini_btn_play = rootview.findViewById(R.id.mini_play_play);
         mini_play_name = rootview.findViewById(R.id.mini_play_name);
         mini_play_artist = rootview.findViewById(R.id.mini_play_artist);

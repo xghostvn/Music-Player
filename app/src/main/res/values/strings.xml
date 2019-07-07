@@ -4,4 +4,5 @@
     <string name="albums_name">Albums Name</string>
     <string name="albums_artist">Albums Artist</string>
     <string name="albums_img">Albums Image</string>
+    <string name="player_interface_title">My Music</string>
 </resources>
