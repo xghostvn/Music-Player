@@ -109,7 +109,6 @@ public class ServiceMusic extends Service implements PlayerInterface {
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-
                 mp.start();
                 callBack.onStart();
             }
@@ -180,6 +179,10 @@ public class ServiceMusic extends Service implements PlayerInterface {
 
     }
 
+    public void SeekTo(int millisecond){
+        mediaPlayer.seekTo(millisecond);
+    }
+
     //prepare music
    public void PlayHandler(final SongInfo songInfo){
         handler.post(new Runnable(){
@@ -231,10 +234,13 @@ public class ServiceMusic extends Service implements PlayerInterface {
 
 
 
-   public long getMaxDuration(){
-        return mediaPlayer.getDuration();
+   public int getMaxDuration(){
+        return currentsong.getDuration();
    }
-
+    public int getCurrentStreamPosition(){
+        if(mediaPlayer == null) return 0;
+        else return mediaPlayer.getCurrentPosition();
+    }
 
     @Override
     public void onDestroy() {

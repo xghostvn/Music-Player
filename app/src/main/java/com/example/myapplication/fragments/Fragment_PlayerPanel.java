@@ -44,15 +44,23 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
     private ImageView btn_play;
     private ImageView btn_prev;
     private Intent intent;
-    private SeekBar seekBar;
+
     private TextView song_duration;
     private TextView song_current_time;
     @BindView(R.id.cl_player_interface)
     ConstraintLayout constraintLayout;
     @BindView(R.id.iv_pn_action_btn)
     ImageView actionbtn;
+    @BindView(R.id.tv_pn_total_time)
+    TextView total_time;
+    @BindView(R.id.tv_pn_remain_time)
+    TextView remain_time;
+    @BindView(R.id.sb_pn_player)
+    SeekBar seekBar;
     private ConstraintLayout.LayoutParams params;
+    boolean servicestatus = false;
     private Bundle bundle;
+    String TAG = "abc";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,6 +81,14 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
         return rootView;
 
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SeekBarThread seekBarThread = new SeekBarThread();
+        seekBarThread.start();
+    }
+
     private void HandleAllAction(){
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +170,25 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
             }
         });
 
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+               if(serviceMusic!=null && fromUser){
+                   serviceMusic.SeekTo(progress);
+               }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         //update UI
         serviceMusic.setCallBack(new PlayerInterface.CallBack() {
             @Override
@@ -167,16 +202,23 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
             public void onPause() {
                 actionbtn.setImageResource(R.drawable.ic_media_play);
                 btn_play.setImageResource(R.drawable.ic_media_play);
+                servicestatus = false;
             }
 
             @Override
             public void onStart() {
+                servicestatus = true;
+                seekBar.setMax(serviceMusic.getMaxDuration());
+                seekBar.setProgress(0);
                 actionbtn.setImageResource(R.drawable.ic_media_pause);
                 btn_play.setImageResource(R.drawable.ic_media_pause);
             }
 
             @Override
             public void onResume() {
+                servicestatus = true;
+                seekBar.setMax(serviceMusic.getMaxDuration());
+                seekBar.setProgress(serviceMusic.getCurrentStreamPosition());
                 actionbtn.setImageResource(R.drawable.ic_media_pause);
                 btn_play.setImageResource(R.drawable.ic_media_pause);
             }
@@ -195,7 +237,7 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
     public void onServiceConnected(ServiceMusic serviceMusic) {
         Log.d("abc", "onServiceConnected: Service Player Panel Connected ");
         this.serviceMusic = serviceMusic;
-
+        servicestatus = true;
         UpdateUI();
         HandleAllAction();
     }
@@ -264,6 +306,39 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
 
         }
 
+        private class SeekBarThread extends Thread{
+
+            @Override
+            public void run() {
+               while (true){
+                   try {
+                       Thread.sleep(1000);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                    if(servicestatus){
+                        final String total = Helper.toTimeFormat(serviceMusic.getMaxDuration());
+                        final String remain = Helper.toTimeFormat(serviceMusic.getCurrentStreamPosition());
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                total_time.setText(total);
+                                remain_time.setText(remain);
+                                seekBar.setProgress(serviceMusic.getCurrentStreamPosition());
+
+                                Log.d("abc", "run: "+seekBar.getMax());
+                                Log.d(TAG, "run: "+seekBar.getProgress());
+                            }
+                        });
+                    }
+
+               }
+
+
+
+            }
+        }
+
     @Override
     public void onResume() {
         Log.d("abc", "onResume: on resume player panel called");
@@ -278,5 +353,5 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
                 UpdateUiOntrackChange(songInfo);
             }
     }
-    
+
 }
