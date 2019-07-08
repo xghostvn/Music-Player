@@ -155,6 +155,10 @@ public class ServiceMusic extends Service implements PlayerInterface {
 
         if(isPlaying()){
             start(currentsong);
+        }else {
+            if(CheckSongOver()){
+                start(currentsong);
+            }
         }
     }
     public void resume(){
@@ -240,6 +244,15 @@ public class ServiceMusic extends Service implements PlayerInterface {
     public int getCurrentStreamPosition(){
         if(mediaPlayer == null) return 0;
         else return mediaPlayer.getCurrentPosition();
+    }
+    public boolean CheckSongOver(){
+        if(mediaPlayer!=null){
+            if(mediaPlayer.getCurrentPosition()>=mediaPlayer.getDuration()){
+                currentPostion = 0;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

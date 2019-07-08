@@ -111,10 +111,9 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
 
 
                 serviceMusic.play_next();
-                SongInfo songInfo = serviceMusic.currentsong;
 
-                song_name.setText(songInfo.SongName);
-                song_artist.setText(songInfo.Artist);
+
+
 
             }
         });
@@ -125,10 +124,8 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
             public void onClick(View v) {
 
                 serviceMusic.play_prev();
-                SongInfo songInfo = serviceMusic.currentsong;
 
-                song_name.setText(songInfo.SongName);
-                song_artist.setText(songInfo.Artist);
+
 
 
             }
@@ -176,6 +173,7 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
                if(serviceMusic!=null && fromUser){
                    serviceMusic.SeekTo(progress);
                }
+
             }
 
             @Override
@@ -207,6 +205,7 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
 
             @Override
             public void onStart() {
+                Log.d(TAG, "onStart: ");
                 servicestatus = true;
                 seekBar.setMax(serviceMusic.getMaxDuration());
                 seekBar.setProgress(0);
@@ -319,17 +318,22 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
                     if(servicestatus){
                         final String total = Helper.toTimeFormat(serviceMusic.getMaxDuration());
                         final String remain = Helper.toTimeFormat(serviceMusic.getCurrentStreamPosition());
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                total_time.setText(total);
-                                remain_time.setText(remain);
-                                seekBar.setProgress(serviceMusic.getCurrentStreamPosition());
+                        if(serviceMusic.CheckSongOver()){
+                            Log.d(TAG, "run: play next");
+                            serviceMusic.play_next();
+                        }else {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    total_time.setText(total);
+                                    remain_time.setText(remain);
+                                    seekBar.setProgress(serviceMusic.getCurrentStreamPosition());
 
-                                Log.d("abc", "run: "+seekBar.getMax());
-                                Log.d(TAG, "run: "+seekBar.getProgress());
-                            }
-                        });
+
+                                }
+                            });
+                        }
+
                     }
 
                }
