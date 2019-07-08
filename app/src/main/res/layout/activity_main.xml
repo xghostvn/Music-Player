@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_height="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:weightSum="5"
@@ -28,4 +29,4 @@
 
 
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

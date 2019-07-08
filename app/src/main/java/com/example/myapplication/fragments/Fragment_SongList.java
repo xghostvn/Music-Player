@@ -54,15 +54,11 @@ public class Fragment_SongList extends MusicServiceFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.f_songlist,container,false);
 
-        mini_btn_play = rootview.findViewById(R.id.mini_play_play);
-        mini_play_name = rootview.findViewById(R.id.mini_play_name);
-        mini_play_artist = rootview.findViewById(R.id.mini_play_artist);
-        mini_btn_next = rootview.findViewById(R.id.mini_play_next);
-        mini_btn_prev = rootview.findViewById(R.id.mini_play_prev);
+
          HandleView();
         Log.d("abc", "onCreateView: fragment_songlist");
        //  serviceMusic = new ServiceMusic() and start service with intent  is different object
-        mini_player_panel = rootview.findViewById(R.id.mini_play_panel);
+
 
         recyclerView = rootview.findViewById(R.id.song_list);
         Log.d("abc", "onCreateView: LoadSongs");
@@ -84,56 +80,12 @@ public class Fragment_SongList extends MusicServiceFragment {
             @Override
             public void OnItemClick(View view, SongInfo song, int pos) {
                     serviceMusic.start(song);
-                 mini_btn_play.setImageResource(R.drawable.ic_media_pause);
-                 mini_play_name.setText(song.SongName);
-                 mini_play_artist.setText(song.Artist);
-
-            }
-        });
-
-        mini_player_panel.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                SwitchFragment(serviceMusic.currentsong);
-
-            }
-        });
-        mini_btn_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(serviceMusic.isPlaying()){
-                    mini_btn_play.setImageResource(R.drawable.ic_media_play);
-                    serviceMusic.pause();
-                }else {
-                    mini_btn_play.setImageResource(R.drawable.ic_media_pause);
-                    serviceMusic.resume();
-                }
-            }
-        });
-
-        mini_btn_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                serviceMusic.play_next();
-                SongInfo songInfo = serviceMusic.currentsong;
-                mini_play_name.setText(songInfo.SongName);
-                mini_play_artist.setText(songInfo.Artist);
-            }
-        });
-
-        mini_btn_prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                serviceMusic.play_prev();
-                SongInfo songInfo = serviceMusic.currentsong;
-                mini_play_name.setText(songInfo.SongName);
-                mini_play_artist.setText(songInfo.Artist);
 
 
             }
         });
+
+
     }
 
 

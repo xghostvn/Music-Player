@@ -38,82 +38,17 @@ public class SongPlayerFragment extends MusicServiceFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.play_main,container,false);
 
-        fragment_home = new Fragment_Home();
-
-        btn_play = rootView.findViewById(R.id.play_btn);
-        btn_next = rootView.findViewById(R.id.next_btn);
-        btn_prev = rootView.findViewById(R.id.prev_btn);
-        linearLayout = rootView.findViewById(R.id.player_panel);
-        song_name = rootView.findViewById(R.id.song_name);
-        song_artist = rootView.findViewById(R.id.song_artist);
-        seekBar = rootView.findViewById(R.id.my_seekbar);
-        seekBar.setProgress(0);
-
-
-        btn_play.setImageResource(R.drawable.ic_media_pause);
-
-        HandleAllAction();
-        return rootView;
+       return  rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Bundle songinfo = getArguments();
-        if(songinfo!=null){
-            song_name.setText(songinfo.getString("song_name"));
-            song_artist.setText(songinfo.getString("song_artist"));
-        }
-    }
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+
     @Override
     public void onServiceConnected(ServiceMusic serviceMusic) {
-        this.serviceMusic = serviceMusic;
+
     }
 
     @Override
     public void onServiceDisconnected() {
 
-    }
-
-    public void HandleAllAction(){
-
-           btn_play.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   if(serviceMusic.isPlaying()){
-                       btn_play.setImageResource(R.drawable.ic_media_play);
-                       serviceMusic.pause();
-                   }else {
-                       btn_play.setImageResource(R.drawable.ic_media_pause);
-
-                           serviceMusic.start(serviceMusic.currentsong);
-
-                   }
-               }
-           });
-
-           linearLayout.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                   fragmentTransaction.replace(R.id.main_frame,fragment_home);
-                   fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                   fragmentTransaction.addToBackStack(null);
-                   fragmentTransaction.commit();
-               }
-           });
-
-
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("abc", "onStart: SongPlayer Fragment Start Service");
     }
 }

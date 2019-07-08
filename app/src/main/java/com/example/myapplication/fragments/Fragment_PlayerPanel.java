@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.transition.Slide;
@@ -16,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -25,8 +30,11 @@ import com.example.myapplication.loader.HandleSong;
 import com.example.myapplication.models.SongInfo;
 import com.example.myapplication.service.ServiceMusic;
 
-public class Fragment_PlayerPanel extends MusicServiceFragment {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+public class Fragment_PlayerPanel extends MusicServiceFragment {
+    private BottomSheetBehavior bottomSheetBehavior;
     private ServiceMusic serviceMusic;
     private TextView song_name;
     private TextView song_artist;
@@ -37,20 +45,21 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
     private SeekBar seekBar;
     private TextView song_duration;
     private TextView song_current_time;
+    @BindView(R.id.cl_player_interface)
+    ConstraintLayout constraintLayout;
     private Bundle bundle;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.play_main,container,false);
+        ButterKnife.bind(this,rootView);
+        bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
+        song_name = rootView.findViewById(R.id.tv_panel_song_name);
+        song_artist = rootView.findViewById(R.id.tv_panel_artist_name);
+        btn_next = rootView.findViewById(R.id.iv_pn_next_btn);
+        btn_play = rootView.findViewById(R.id.iv_pn_play_btn);
+        btn_prev = rootView.findViewById(R.id.iv_pn_prev_btn);
 
-        song_current_time = rootView.findViewById(R.id.song_current_time);
-        song_duration = rootView.findViewById(R.id.song_duration);
-        song_name = rootView.findViewById(R.id.song_name);
-        song_artist = rootView.findViewById(R.id.song_artist);
-        btn_next = rootView.findViewById(R.id.next_btn);
-        btn_play = rootView.findViewById(R.id.play_btn);
-        btn_prev = rootView.findViewById(R.id.prev_btn);
-        seekBar = rootView.findViewById(R.id.my_seekbar);
 
         HandleView();
 
@@ -103,11 +112,21 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
             }
         });
 
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }else {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+        });
 
 
 
-        runThread runThread = new runThread();
-        runThread.start();
+
+
 
     }
     private void HandleView(){
@@ -127,7 +146,10 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
 
     @Override
     public void onServiceConnected(ServiceMusic serviceMusic) {
+        Log.d("abc", "onServiceConnected: Service Player Panel Connected ");
         this.serviceMusic = serviceMusic;
+
+        UpdateUI();
     }
 
 
@@ -151,7 +173,7 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
     public void onServiceDisconnected() {
 
     }
-
+    /*
     private class runThread extends Thread{
         @Override
         public void run() {
@@ -173,5 +195,39 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
                 });
             }
         }
+    }*/
+
+
+        public void UpdateUiOntrackChange(final SongInfo songInfo){
+            Thread updateThread = new Thread(){
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable(){
+                        @Override
+                        public void run() {
+                            song_name.setText(songInfo.SongName);
+                            song_artist.setText(songInfo.Artist);
+                        }
+                    });
+                }
+            };
+
+            updateThread.start();
+
+        }
+
+    @Override
+    public void onResume() {
+        Log.d("abc", "onResume: on resume player panel called");
+        super.onResume();
+        UpdateUI();
+
+    }
+
+    private void UpdateUI(){
+            if(serviceMusic!=null){
+                SongInfo songInfo = serviceMusic.currentsong;
+                UpdateUiOntrackChange(songInfo);
+            }
     }
 }

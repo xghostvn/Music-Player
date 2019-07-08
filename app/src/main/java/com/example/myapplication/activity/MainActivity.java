@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,15 +15,29 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.fragments.Fragment_Home;
+import com.example.myapplication.fragments.Fragment_PlayerPanel;
 import com.example.myapplication.service.ServiceMusic;
 
+import butterknife.BindView;
+
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new Fragment_Home(),"main_content").commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_frame,new Fragment_Home(),"main_content")
+                .addToBackStack(null)
+                .commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main,new Fragment_PlayerPanel(),"main_player")
+                .addToBackStack(null)
+                .commit();
         checkPermission();
 
         Intent intent = new Intent(this, ServiceMusic.class);
