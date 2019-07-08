@@ -15,6 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.example.myapplication.PlayerInterface;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.MainActivity;
 import com.example.myapplication.loader.HandleSong;
@@ -27,7 +28,7 @@ import java.io.IOException;
 import static com.example.myapplication.activity.App.CHANNEL_ID;
 
 
-public class ServiceMusic extends Service {
+public class ServiceMusic extends Service implements PlayerInterface {
     String TAG = "ServiceMusic : ";
 
     public SongInfo currentsong;
@@ -37,6 +38,7 @@ public class ServiceMusic extends Service {
     private boolean first_time = true;
     public int currentPostion;
     MusicPreferences musicPreferences;
+    CallBack callBack;
     @Override
     public IBinder onBind(Intent intent) {
         return musicBinder;
@@ -102,24 +104,20 @@ public class ServiceMusic extends Service {
     }
 
     public void start(SongInfo songInfo){
-
-
             PlayHandler(songInfo);
-
         currentPostion = 0;
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                Log.d("abc", "onPrepared: "+mp.getDuration());
-                mp.start();
-            }
 
+                mp.start();
+                callBack.onStart();
+            }
         });
         if (first_time){
             tobeForeground();
             first_time = false;
         }
-
     }
     public void play_prev(){
         SongInfo songInfo = currentsong;
@@ -167,6 +165,7 @@ public class ServiceMusic extends Service {
             public void onPrepared(MediaPlayer mp) {
                 mediaPlayer.seekTo(currentPostion);
                 mp.start();
+                callBack.onResume();
             }
 
         });
@@ -176,11 +175,12 @@ public class ServiceMusic extends Service {
         if(mediaPlayer!=null){
             mediaPlayer.pause();
             currentPostion = mediaPlayer.getCurrentPosition();
+            callBack.onPause();
         }
 
     }
 
-
+    //prepare music
    public void PlayHandler(final SongInfo songInfo){
         handler.post(new Runnable(){
             @Override
@@ -191,6 +191,7 @@ public class ServiceMusic extends Service {
                         mediaPlayer.setDataSource(songInfo.Url);
                         currentsong = songInfo;
                         mediaPlayer.prepareAsync();
+                        callBack.onTrackChange(songInfo);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -223,15 +224,12 @@ public class ServiceMusic extends Service {
     private void save_currentSong(int song_ID,long duration){
         MusicPreferences.get(this).setCurrentSongStatus(song_ID,duration);
     }
+    public void setCallBack(CallBack callBack){
+        this.callBack = callBack;
+    }
 
 
 
-   public void onPause(){
-        if(mediaPlayer!=null){
-            mediaPlayer.pause();
-        }
-
-   }
 
    public long getMaxDuration(){
         return mediaPlayer.getDuration();

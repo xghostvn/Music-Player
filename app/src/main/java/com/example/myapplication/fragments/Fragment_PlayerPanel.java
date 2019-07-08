@@ -24,11 +24,13 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.myapplication.PlayerInterface;
 import com.example.myapplication.R;
 
 import com.example.myapplication.loader.HandleSong;
 import com.example.myapplication.models.SongInfo;
 import com.example.myapplication.service.ServiceMusic;
+import com.example.myapplication.utils.Helper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +49,9 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
     private TextView song_current_time;
     @BindView(R.id.cl_player_interface)
     ConstraintLayout constraintLayout;
+    @BindView(R.id.iv_pn_action_btn)
+    ImageView actionbtn;
+    private ConstraintLayout.LayoutParams params;
     private Bundle bundle;
     @Nullable
     @Override
@@ -60,10 +65,11 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
         btn_play = rootView.findViewById(R.id.iv_pn_play_btn);
         btn_prev = rootView.findViewById(R.id.iv_pn_prev_btn);
 
+        params = (ConstraintLayout.LayoutParams) song_name.getLayoutParams();
 
         HandleView();
 
-        HandleAllAction();
+
         return rootView;
 
     }
@@ -74,10 +80,10 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
                 if(serviceMusic!=null){
                     if(serviceMusic.isPlaying()){
                         serviceMusic.pause();
-                        btn_play.setImageResource(R.drawable.ic_media_play);
+
                     }else {
                         serviceMusic.resume();
-                        btn_play.setImageResource(R.drawable.ic_media_pause);
+
                     }
                 }
             }
@@ -123,25 +129,66 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
             }
         });
 
+        actionbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(serviceMusic.isPlaying()){
+                    serviceMusic.pause();
+                }else {
+                    serviceMusic.resume();
+                }
+            }
+        });
 
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int newstate) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float slideOffset) {
+                params.topMargin = Helper.dpToPx(getActivity(), slideOffset * 30 + 5);
+                actionbtn.setAlpha(1 - slideOffset);
+                song_name.setLayoutParams(params);
+            }
+        });
+
+        //update UI
+        serviceMusic.setCallBack(new PlayerInterface.CallBack() {
+            @Override
+            public void onTrackChange(SongInfo songInfo) {
+                Log.d("abc", "onTrackChange: UI update");
+                UpdateUiOntrackChange(songInfo);
+                actionbtn.setImageResource(R.drawable.ic_media_pause);
+            }
+
+            @Override
+            public void onPause() {
+                actionbtn.setImageResource(R.drawable.ic_media_play);
+                btn_play.setImageResource(R.drawable.ic_media_play);
+            }
+
+            @Override
+            public void onStart() {
+                actionbtn.setImageResource(R.drawable.ic_media_pause);
+                btn_play.setImageResource(R.drawable.ic_media_pause);
+            }
+
+            @Override
+            public void onResume() {
+                actionbtn.setImageResource(R.drawable.ic_media_pause);
+                btn_play.setImageResource(R.drawable.ic_media_pause);
+            }
+
+        });
 
 
 
 
     }
     private void HandleView(){
-        bundle = getArguments();
-        if(bundle!=null){
-            boolean type = bundle.getBoolean("type");
-            if(type){
-                btn_play.setImageResource(R.drawable.ic_media_pause);
-            }else {
-                btn_play.setImageResource(R.drawable.ic_media_play);
-            }
-            song_name.setText(bundle.getString("song_name"));
-            song_artist.setText(bundle.getString("song_artist"));
-            seekBar.setMax(bundle.getInt("song_duration",0));
-        }
+        actionbtn.setImageResource(R.drawable.ic_media_play);
     }
 
     @Override
@@ -150,6 +197,7 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
         this.serviceMusic = serviceMusic;
 
         UpdateUI();
+        HandleAllAction();
     }
 
 
@@ -230,4 +278,5 @@ public class Fragment_PlayerPanel extends MusicServiceFragment {
                 UpdateUiOntrackChange(songInfo);
             }
     }
+    
 }

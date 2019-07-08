@@ -17,9 +17,9 @@
 
     <ImageView
         android:id="@+id/iv_pn_play_btn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/ic_action_pause"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_media_play"
 
         android:elevation="100dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_pn_next_btn"
